@@ -44,7 +44,6 @@ var dragMove = function(){
   var newX = currentData.x + xdiff;
   var newY = currentData.y + ydiff;
   if(newX < 0 || newX > options.width - (options.padding * 2) - parseInt(player.attr("width"))){
-    debugger;
     newX = currentData.x;
   }
   if(newY < 0 || newY > options.height - (options.padding * 2) - parseInt(player.attr("height"))){
@@ -94,7 +93,18 @@ var update = function(enemyPositions) {
 
   // Appending enemies (if they don't exist)
   enemies.enter().append('image').attr('class', 'enemy');
-
+  //bigger function
+  var bigger = function(){
+    enemies.transition().duration(300)
+         .attr('height', '40px')
+         .attr('width', '40px')
+         .attr('xlink:href', 'kick.png')
+         .each('end', function(){
+          enemies.transition().duration(300)
+           .attr('height', '25px')
+           .attr('width', '25px');
+         });
+  };
   // Setting the position of the enemies
   enemies.transition().duration(2000)
          .tween('custom', tweenWithCollisionDetection)
@@ -102,7 +112,8 @@ var update = function(enemyPositions) {
          .attr('y', function(d){ return d.y; })
          .attr('height', '25px')
          .attr('width', '25px')
-         .attr('xlink:href', 'enemy.png');
+         .attr('xlink:href', 'enemy.png')
+         .each('end', bigger);
 };
 
 var generatePositions = function(){
@@ -133,7 +144,7 @@ setTimeout(function(){
 
 setInterval(function(){
   update(generatePositions());
-}, 2000);
+}, 2600);
 
 
 // Step 5
